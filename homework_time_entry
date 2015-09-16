@@ -1,0 +1,76 @@
+1)Find all time entries.
+	SELECT *
+	FROM time_entries
+	ORDER BY duration DESC;
+		500 rows as result
+
+2)Find the developer who joined the company most recently.
+	SELECT *
+	FROM developers
+	ORDER BY joined_on DESC
+		Dr. Danielle McLaughlin
+
+3)Find the number of projects for each client.
+	SELECT client_id, COUNT(*)
+	FROM projects
+	GROUP BY client_id;
+		Each client has 3 projects
+
+4)Find all projects, and show each one's company's industry next to it.
+	SELECT projects.name, clients.industry
+	FROM projects INNER JOIN clients
+	ON projects.client_id = clients.id;
+		30 projects with 10 industries
+
+5)Find all developers in the "Ohio sheep" group.
+	SELECT groups.name, group_assignments.developer_id, group_assignments.group_id
+	FROM group_assignments 
+	INNER JOIN groups
+	ON groups.id = group_assignments.group_id
+	WHERE groups.name LIKE '%Ohio sheep%';
+		3 rows, 3 developers with group id 3
+
+6)Find the total number of hours worked for each company.
+	SELECT clients.name,  SUM(t.duration) AS total_hours
+	FROM time_entries AS t
+	JOIN projects ON t.project_id = projects.id
+	JOIN clients ON projects.client_id = clients.id
+	GROUP BY clients.name
+		10 rows
+
+7)Find the client for whom Mrs. Lupe Schowalter (the developer) has worked the greatest number of hours.
+	SELECT clients.*, SUM(time_entries.duration )
+	FROM clients
+	JOIN projects ON clients.id = projects.client_id
+	JOIN time_entries ON time_entries.project_id = projects.id
+	JOIN developers ON developers.id = time_entries.developer_id
+	WHERE developers.name = 'Mrs. Lupe Schowalter' 
+	GROUP BY clients.name
+	ORDER BY SUM(time_entries.duration) DESC
+	LIMIT 1
+		Kuhic-Bartoletti with 11 total hours
+
+8)List all client names with their project names (multiple rows for one client is fine). Make sure that clients still show up even if they have no projects.
+	SELECT projects.name AS project_name, clients.name AS client_name
+	FROM clients
+	LEFT JOIN projects ON projects.client_id = clients.id
+		30 rows returned
+
+9)Find all developers who have written no comments.
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
