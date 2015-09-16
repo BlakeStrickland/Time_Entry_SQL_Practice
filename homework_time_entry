@@ -24,7 +24,7 @@
 
 5)Find all developers in the "Ohio sheep" group.
 	SELECT groups.name, group_assignments.developer_id, group_assignments.group_id
-	FROM group_assignments 
+	FROM group_assignments
 	INNER JOIN groups
 	ON groups.id = group_assignments.group_id
 	WHERE groups.name LIKE '%Ohio sheep%';
@@ -44,7 +44,7 @@
 	JOIN projects ON clients.id = projects.client_id
 	JOIN time_entries ON time_entries.project_id = projects.id
 	JOIN developers ON developers.id = time_entries.developer_id
-	WHERE developers.name = 'Mrs. Lupe Schowalter' 
+	WHERE developers.name = 'Mrs. Lupe Schowalter'
 	GROUP BY clients.name
 	ORDER BY SUM(time_entries.duration) DESC
 	LIMIT 1
@@ -57,20 +57,7 @@
 		30 rows returned
 
 9)Find all developers who have written no comments.
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	SELECT *
+	FROM comments
+	WHERE developers.id NOT IN(SELECT developer_id FROM comments)
+		13 rows returned
